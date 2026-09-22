@@ -84,14 +84,14 @@
     </div>
 
     <div class="gate">
-      <div class="gate-copy"><strong>Numbers are members-only.</strong> Matchups are public so you can see the board is live &mdash; lines, edge, and stake unlock with this week's code, posted in Discord for active members.</div>
+      <div class="gate-copy"><strong>Numbers are members-only.</strong> Matchups are public so you can see the board is live &mdash; your Discord role gets you a code that unlocks lines, edge, and stake for exactly the picks your tier covers.</div>
       <form class="gate-form" id="gateForm">
         <input id="gateInput" type="text" placeholder="Access code" maxlength="24" autocomplete="off" aria-label="Access code">
         <button type="submit">Unlock</button>
       </form>
       <div class="gate-msg" id="gateMsg"></div>
     </div>
-    <div class="unlocked-tag">&#9679; Unlocked for this session</div>
+    <div class="unlocked-tag" id="unlockedTag">&#9679; Unlocked for this session</div>
 
     <div class="table-scroll">
       <table class="picks-table">
@@ -107,7 +107,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr data-rank="1">
             <td class="mono locked-val">1</td>
             <td class="matchup">MIN @ TB<span class="sub locked-val">Total &middot; <span class="pill">Under 42.50</span></span></td>
             <td class="mono locked-val">42.50</td>
@@ -116,7 +116,7 @@
             <td><span class="stake locked-val">1.50u</span></td>
             <td class="tier-tag locked-val">Top Pick</td>
           </tr>
-          <tr>
+          <tr data-rank="2">
             <td class="mono locked-val">2</td>
             <td class="matchup">CAR @ CLE<span class="sub locked-val">Total &middot; <span class="pill">Under 42.50</span></span></td>
             <td class="mono locked-val">42.50</td>
@@ -125,7 +125,7 @@
             <td><span class="stake locked-val">1.50u</span></td>
             <td class="tier-tag locked-val">Top 3</td>
           </tr>
-          <tr>
+          <tr data-rank="3">
             <td class="mono locked-val">3</td>
             <td class="matchup">LV @ NO<span class="sub locked-val">Total &middot; <span class="pill">Under 43.50</span></span></td>
             <td class="mono locked-val">43.50</td>
@@ -134,7 +134,7 @@
             <td><span class="stake locked-val">1.50u</span></td>
             <td class="tier-tag locked-val">Top 3</td>
           </tr>
-          <tr>
+          <tr data-rank="4">
             <td class="mono locked-val">4</td>
             <td class="matchup">ATL @ GB<span class="sub locked-val">Total &middot; <span class="pill">Under 44.50</span></span></td>
             <td class="mono locked-val">44.50</td>
@@ -143,7 +143,7 @@
             <td><span class="stake locked-val">1.25u</span></td>
             <td class="tier-tag locked-val">Top 5</td>
           </tr>
-          <tr>
+          <tr data-rank="5">
             <td class="mono locked-val">5</td>
             <td class="matchup">CIN @ PIT<span class="sub locked-val">Total &middot; <span class="pill">Under 42.50</span></span></td>
             <td class="mono locked-val">42.50</td>
@@ -152,7 +152,7 @@
             <td><span class="stake locked-val">1.25u</span></td>
             <td class="tier-tag locked-val">Top 5</td>
           </tr>
-          <tr>
+          <tr data-rank="6">
             <td class="mono locked-val">6</td>
             <td class="matchup">TEN @ NYG<span class="sub locked-val">Total &middot; <span class="pill">Under 40.50</span></span></td>
             <td class="mono locked-val">40.50</td>
@@ -161,7 +161,7 @@
             <td><span class="stake locked-val">1.00u</span></td>
             <td class="tier-tag locked-val">Full Board</td>
           </tr>
-          <tr>
+          <tr data-rank="7">
             <td class="mono locked-val">7</td>
             <td class="matchup">NE @ JAX<span class="sub locked-val">Total &middot; <span class="pill">Under 45.50</span></span></td>
             <td class="mono locked-val">45.50</td>
@@ -208,10 +208,17 @@
 
 <script>
 (function(){
-  // SHA-256 hash of this week's access code — change CODE_HASH each week rather than
-  // storing the code itself in plain text. Compute a new one with:
-  //   printf '%s' "YOURCODE" | shasum -a 256   (or any SHA-256 tool)
-  var CODE_HASH = "bc5a6617fa4cea9d1d0d264ba93c7153ceaae9fb729dae9d9745cb58ba67e219"; // "NFLGW3"
+  // SHA-256 hashes of this week's access codes — one per tier, each unlocking a specific
+  // set of ranks (not necessarily a top-N cutoff — tiers can skip around the board).
+  // Change these each week rather than storing the codes themselves in plain text.
+  // Compute a new one with:  printf '%s' "YOURCODE" | shasum -a 256
+  var CODES = [
+    { hash: "f755c931fb22d2e084d89010b2b5898343574f4040a8fc122f77bc366a5c2769", ranks: [7] },             // "NFLGW31"      — 1 pick
+    { hash: "df77b4f9084d9a4d2583aa3b08b390a475cce35ec6e68282c334feb2578f74e2", ranks: [5,6,7] },        // "NFLGW3S"      — 3 picks
+    { hash: "3136b0b8b7d37da1e7821736f198b905731fb12148da73567d9e1e5f0180ad94", ranks: [1,4,5,6,7] },    // "NFLGW3ELITE5" — 5 picks
+    { hash: "b6f74242f370720a8a1eca19fcecebe89f030b822bf96e3961532cb14ada4989", ranks: [1,2,3,4,5,6,7] } // "NFLGW3SLATE"  — all picks
+  ];
+  var TOTAL_ROWS = document.querySelectorAll("#board tr[data-rank]").length;
 
   async function sha256Hex(text){
     var enc = new TextEncoder().encode(text.trim().toUpperCase());
@@ -219,14 +226,21 @@
     return Array.from(new Uint8Array(digest)).map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
   }
 
-  function unlock(){
-    document.body.classList.add("unlocked");
-    try{ sessionStorage.setItem("x17_unlocked","1"); }catch(e){}
+  function applyUnlock(unlockedSet){
+    document.querySelectorAll("#board tr[data-rank]").forEach(function(row){
+      var rank = parseInt(row.getAttribute("data-rank"), 10);
+      row.classList.toggle("row-unlocked", unlockedSet.has(rank));
+    });
+    if(unlockedSet.size > 0){ document.body.classList.add("any-unlocked"); }
+    if(unlockedSet.size >= TOTAL_ROWS){ document.body.classList.add("fully-unlocked"); }
   }
 
+  var unlockedSet = new Set();
   try{
-    if(sessionStorage.getItem("x17_unlocked") === "1"){ unlock(); }
+    var stored = sessionStorage.getItem("x17_ranks");
+    if(stored){ stored.split(",").forEach(function(r){ if(r) unlockedSet.add(parseInt(r,10)); }); }
   }catch(e){}
+  if(unlockedSet.size > 0){ applyUnlock(unlockedSet); }
 
   var form = document.getElementById("gateForm");
   var input = document.getElementById("gateInput");
@@ -238,11 +252,15 @@
       if(!val.trim()){ return; }
       try{
         var hex = await sha256Hex(val);
-        if(hex === CODE_HASH){
+        var match = CODES.find(function(c){ return c.hash === hex; });
+        if(match){
+          match.ranks.forEach(function(r){ unlockedSet.add(r); });
+          try{ sessionStorage.setItem("x17_ranks", Array.from(unlockedSet).join(",")); }catch(err){}
+          applyUnlock(unlockedSet);
           msg.textContent = "";
-          unlock();
+          input.value = "";
         } else {
-          msg.textContent = "That code didn't match — check Discord for this week's code.";
+          msg.textContent = "That code didn't match — check Discord for your tier's code.";
         }
       }catch(err){
         msg.textContent = "Couldn't verify the code in this browser — try again.";
