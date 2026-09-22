@@ -14,6 +14,7 @@
     <nav class="site-nav">
       <a href="#access">Access</a>
       <a href="#board">This Week</a>
+      <a href="fixtures.html">Fixtures</a>
       <a href="tracker.html">Tracker</a>
     </nav>
     <a class="cta" href="#access">Get Access</a>
@@ -26,10 +27,10 @@
     <h1>Every play is priced before it's picked.</h1>
     <p>We run our own numbers on every NFL slate, compare them to market lines, and only release the spots where the gap is real. Stake size follows the size of the edge &mdash; not confidence, not vibes.</p>
     <div class="stat-row">
-      <div class="stat-chip"><span class="v">6</span><span class="k">Graded this week</span></div>
-      <div class="stat-chip"><span class="v">+2.6&nbsp;&ndash;&nbsp;3.6</span><span class="k">Edge range (pts)</span></div>
-      <div class="stat-chip"><span class="v">1u&nbsp;&ndash;&nbsp;3u</span><span class="k">Stake range</span></div>
-      <div class="stat-chip"><span class="v mono">61.8%</span><span class="k">Season hit rate</span></div>
+      <div class="stat-chip"><span class="v">7</span><span class="k">Graded this week</span></div>
+      <div class="stat-chip"><span class="v">10.5%&nbsp;&ndash;&nbsp;37.8%</span><span class="k">EV range</span></div>
+      <div class="stat-chip"><span class="v">1.00u&nbsp;&ndash;&nbsp;1.50u</span><span class="k">Stake range</span></div>
+      <div class="stat-chip"><span class="v mono">85.7%</span><span class="k">Season hit rate</span></div>
     </div>
   </div>
 </div>
@@ -79,8 +80,7 @@
   <div class="wrap">
     <div class="section-head">
       <h2>This week's board</h2>
-      <div class="desc">Ranked by edge size &mdash; the gap between our model total and the market total.</div>
-      <span class="sample-tag">Example data</span>
+      <div class="desc">Ranked by EV &mdash; the model's expected edge over the market price.</div>
     </div>
 
     <div class="gate">
@@ -99,9 +99,9 @@
           <tr>
             <th>Rank</th>
             <th>Matchup</th>
-            <th>Market</th>
-            <th>Model</th>
-            <th>Edge</th>
+            <th>Total</th>
+            <th>Odds</th>
+            <th>EV</th>
             <th>Stake</th>
             <th>Unlocks in</th>
           </tr>
@@ -109,56 +109,65 @@
         <tbody>
           <tr>
             <td class="mono locked-val">1</td>
-            <td class="matchup">CLE @ TB<span class="sub locked-val">Total &middot; <span class="pill">Under 42.00</span></span></td>
-            <td class="mono locked-val">42.00</td>
-            <td class="mono locked-val">38.4</td>
-            <td class="mono edge locked-val">+3.6</td>
-            <td><span class="stake locked-val">3u</span></td>
+            <td class="matchup">MIN @ TB<span class="sub locked-val">Total &middot; <span class="pill">Under 42.50</span></span></td>
+            <td class="mono locked-val">42.50</td>
+            <td class="mono locked-val">1.90</td>
+            <td class="mono edge locked-val">37.75%<span class="cell-sub">Elite</span></td>
+            <td><span class="stake locked-val">1.50u</span></td>
             <td class="tier-tag locked-val">Top Pick</td>
           </tr>
           <tr>
             <td class="mono locked-val">2</td>
-            <td class="matchup">SEA @ ARI<span class="sub locked-val">Total &middot; <span class="pill">Under 41.00</span></span></td>
-            <td class="mono locked-val">41.00</td>
-            <td class="mono locked-val">37.5</td>
-            <td class="mono edge locked-val">+3.5</td>
-            <td><span class="stake locked-val">3u</span></td>
+            <td class="matchup">CAR @ CLE<span class="sub locked-val">Total &middot; <span class="pill">Under 42.50</span></span></td>
+            <td class="mono locked-val">42.50</td>
+            <td class="mono locked-val">1.85</td>
+            <td class="mono edge locked-val">27.40%<span class="cell-sub">Elite</span></td>
+            <td><span class="stake locked-val">1.50u</span></td>
             <td class="tier-tag locked-val">Top 3</td>
           </tr>
           <tr>
             <td class="mono locked-val">3</td>
-            <td class="matchup">PIT @ NE<span class="sub locked-val">Total &middot; <span class="pill">Under 41.50</span></span></td>
-            <td class="mono locked-val">41.50</td>
-            <td class="mono locked-val">38.1</td>
-            <td class="mono edge locked-val">+3.4</td>
-            <td><span class="stake locked-val">2u</span></td>
+            <td class="matchup">LV @ NO<span class="sub locked-val">Total &middot; <span class="pill">Under 43.50</span></span></td>
+            <td class="mono locked-val">43.50</td>
+            <td class="mono locked-val">1.94</td>
+            <td class="mono edge locked-val">20.81%<span class="cell-sub">Elite</span></td>
+            <td><span class="stake locked-val">1.50u</span></td>
             <td class="tier-tag locked-val">Top 3</td>
           </tr>
           <tr>
             <td class="mono locked-val">4</td>
-            <td class="matchup">CAR @ ATL<span class="sub locked-val">Total &middot; <span class="pill">Under 43.00</span></span></td>
-            <td class="mono locked-val">43.00</td>
-            <td class="mono locked-val">39.8</td>
-            <td class="mono edge locked-val">+3.2</td>
-            <td><span class="stake locked-val">2u</span></td>
+            <td class="matchup">ATL @ GB<span class="sub locked-val">Total &middot; <span class="pill">Under 44.50</span></span></td>
+            <td class="mono locked-val">44.50</td>
+            <td class="mono locked-val">1.86</td>
+            <td class="mono edge locked-val">14.29%<span class="cell-sub">Strong</span></td>
+            <td><span class="stake locked-val">1.25u</span></td>
             <td class="tier-tag locked-val">Top 5</td>
           </tr>
           <tr>
             <td class="mono locked-val">5</td>
-            <td class="matchup">LV @ LAC<span class="sub locked-val">Total &middot; <span class="pill">Under 43.50</span></span></td>
-            <td class="mono locked-val">43.50</td>
-            <td class="mono locked-val">40.6</td>
-            <td class="mono edge locked-val">+2.9</td>
-            <td><span class="stake locked-val">1u</span></td>
+            <td class="matchup">CIN @ PIT<span class="sub locked-val">Total &middot; <span class="pill">Under 42.50</span></span></td>
+            <td class="mono locked-val">42.50</td>
+            <td class="mono locked-val">1.87</td>
+            <td class="mono edge locked-val">13.84%<span class="cell-sub">Strong</span></td>
+            <td><span class="stake locked-val">1.25u</span></td>
             <td class="tier-tag locked-val">Top 5</td>
           </tr>
           <tr>
             <td class="mono locked-val">6</td>
-            <td class="matchup">PHI @ TEN<span class="sub locked-val">Total &middot; <span class="pill">Under 39.50</span></span></td>
-            <td class="mono locked-val">39.50</td>
-            <td class="mono locked-val">36.9</td>
-            <td class="mono edge locked-val">+2.6</td>
-            <td><span class="stake locked-val">1u</span></td>
+            <td class="matchup">TEN @ NYG<span class="sub locked-val">Total &middot; <span class="pill">Under 40.50</span></span></td>
+            <td class="mono locked-val">40.50</td>
+            <td class="mono locked-val">1.84</td>
+            <td class="mono edge locked-val">11.92%<span class="cell-sub">Standard</span></td>
+            <td><span class="stake locked-val">1.00u</span></td>
+            <td class="tier-tag locked-val">Full Board</td>
+          </tr>
+          <tr>
+            <td class="mono locked-val">7</td>
+            <td class="matchup">NE @ JAX<span class="sub locked-val">Total &middot; <span class="pill">Under 45.50</span></span></td>
+            <td class="mono locked-val">45.50</td>
+            <td class="mono locked-val">1.86</td>
+            <td class="mono edge locked-val">10.49%<span class="cell-sub">Standard</span></td>
+            <td><span class="stake locked-val">1.00u</span></td>
             <td class="tier-tag locked-val">Full Board</td>
           </tr>
         </tbody>
@@ -202,7 +211,7 @@
   // SHA-256 hash of this week's access code — change CODE_HASH each week rather than
   // storing the code itself in plain text. Compute a new one with:
   //   printf '%s' "YOURCODE" | shasum -a 256   (or any SHA-256 tool)
-  var CODE_HASH = "5969cf8b00b5359237570ba41d0a9cc93408f78a6ea6d6cd8fb584e9a79651ef"; // "DIPX17NFL"
+  var CODE_HASH = "bc5a6617fa4cea9d1d0d264ba93c7153ceaae9fb729dae9d9745cb58ba67e219"; // "NFLGW3"
 
   async function sha256Hex(text){
     var enc = new TextEncoder().encode(text.trim().toUpperCase());
