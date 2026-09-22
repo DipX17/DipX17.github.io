@@ -89,15 +89,19 @@ header.site{
 }
 .header-inner{
   display:flex; align-items:center; justify-content:space-between;
-  padding-block:14px; gap:16px;
+  padding-block:14px; gap:16px; flex-wrap:wrap;
 }
-.site-nav{display:flex; align-items:center; gap:22px; flex:1; justify-content:center;}
+.site-nav{display:flex; align-items:center; gap:22px; flex:1; justify-content:center; flex-wrap:wrap; row-gap:6px; min-width:0;}
 .site-nav a{
-  font-size:13.5px; font-weight:600; color:var(--text-muted); text-decoration:none;
+  font-size:13.5px; font-weight:600; color:var(--text-muted); text-decoration:none; white-space:nowrap;
 }
 .site-nav a:hover, .site-nav a:focus-visible{color:var(--text);}
 .site-nav a.active{color:var(--accent);}
-@media (max-width:640px){ .site-nav{display:none;} }
+@media (max-width:640px){
+  .header-inner{justify-content:center; text-align:center;}
+  .site-nav{gap:14px; font-size:12.5px; order:3; flex-basis:100%; justify-content:center;}
+  .site-nav a{font-size:12.5px;}
+}
 .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit;}
 .brand-mark{
   width:38px;height:38px;border-radius:9px;
@@ -234,18 +238,17 @@ footer{padding-block:28px 40px; color:var(--text-muted); font-size:12px; line-he
 footer .foot-links{display:flex; gap:14px; margin-bottom:10px; flex-wrap:wrap;}
 footer a{text-decoration:underline; text-underline-offset:2px;}
 
-/* gate */
+/* gate — tiered: rows unlock individually based on the highest-tier code entered */
 .locked-val{filter:blur(6px); user-select:none; transition:filter .25s ease;}
-body.unlocked .locked-val{filter:none;}
+tr.row-unlocked .locked-val{filter:none;}
 .lock-icon{opacity:.55; font-size:11px;}
-body.unlocked .lock-row{display:none;}
 
 .gate{
   display:flex; align-items:center; gap:10px; flex-wrap:wrap;
   background:var(--surface-2); border:1px solid var(--border); border-radius:12px;
   padding:12px 14px; margin-bottom:16px;
 }
-body.unlocked .gate{display:none;}
+body.fully-unlocked .gate{display:none;}
 .gate-copy{flex:1 1 240px; font-size:12.5px; color:var(--text-muted); line-height:1.5;}
 .gate-copy strong{color:var(--text); font-weight:600;}
 .gate-form{display:flex; gap:8px; flex:0 0 auto;}
@@ -263,7 +266,7 @@ body.unlocked .gate{display:none;}
 .gate-msg{width:100%; font-size:12px; color:var(--loss); min-height:1em;}
 
 .unlocked-tag{display:none; align-items:center; gap:6px; font-size:11.5px; color:var(--accent); font-weight:600; margin-bottom:16px;}
-body.unlocked .unlocked-tag{display:inline-flex;}
+body.any-unlocked .unlocked-tag{display:inline-flex;}
 
 /* ---- tracker page: weekly cards ---- */
 .season-head{padding-block:36px 26px; border-bottom:1px solid var(--border);}
