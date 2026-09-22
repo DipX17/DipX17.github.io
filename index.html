@@ -86,7 +86,7 @@
     <div class="gate">
       <div class="gate-copy"><strong>Numbers are members-only.</strong> Matchups are public so you can see the board is live &mdash; your Discord role gets you a code that unlocks lines, edge, and stake for exactly the picks your tier covers.</div>
       <form class="gate-form" id="gateForm">
-        <input id="gateInput" type="text" placeholder="Access code" maxlength="24" autocomplete="off" aria-label="Access code">
+        <input id="gateInput" type="text" placeholder="Access code" maxlength="24" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Access code">
         <button type="submit">Unlock</button>
       </form>
       <div class="gate-msg" id="gateMsg"></div>
@@ -213,15 +213,21 @@
   // Change these each week rather than storing the codes themselves in plain text.
   // Compute a new one with:  printf '%s' "YOURCODE" | shasum -a 256
   var CODES = [
-    { hash: "f755c931fb22d2e084d89010b2b5898343574f4040a8fc122f77bc366a5c2769", ranks: [7] },             // "NFLGW31"      — 1 pick
-    { hash: "df77b4f9084d9a4d2583aa3b08b390a475cce35ec6e68282c334feb2578f74e2", ranks: [5,6,7] },        // "NFLGW3S"      — 3 picks
-    { hash: "3136b0b8b7d37da1e7821736f198b905731fb12148da73567d9e1e5f0180ad94", ranks: [1,4,5,6,7] },    // "NFLGW3ELITE5" — 5 picks
-    { hash: "b6f74242f370720a8a1eca19fcecebe89f030b822bf96e3961532cb14ada4989", ranks: [1,2,3,4,5,6,7] } // "NFLGW3SLATE"  — all picks
+    { hash: "1acfe889037ad294f3d263993ea6e56e8a5cc2e14f8261c2d5718b144ffeb126", ranks: [7] },             // "SQWEGU84" — 1 pick
+    { hash: "e31e9c6dec0d1dc929f870f1c8b51d2bc5bc45c741b9ae770ac849b9bdf80b50", ranks: [5,6,7] },        // "LJOHQH5R" — 3 picks
+    { hash: "090b14a42d11957615f97b0f286e4f3d668c3ce21c3389bedf0a16fddaa8ffd3", ranks: [1,4,5,6,7] },    // "TFLTD3NE" — 5 picks
+    { hash: "80482368c579e637eee19004d208db03f37c654c57dd789385ad9e22dc5c9228", ranks: [1,2,3,4,5,6,7] } // "TMCZOVX4" — all picks
   ];
   var TOTAL_ROWS = document.querySelectorAll("#board tr[data-rank]").length;
 
+  // Strip anything but letters/digits before hashing — guards against stray spaces,
+  // smart-quotes, or autocorrect artifacts a phone/Mac keyboard might sneak in.
+  function normalizeCode(text){
+    return (text || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  }
+
   async function sha256Hex(text){
-    var enc = new TextEncoder().encode(text.trim().toUpperCase());
+    var enc = new TextEncoder().encode(normalizeCode(text));
     var digest = await crypto.subtle.digest("SHA-256", enc);
     return Array.from(new Uint8Array(digest)).map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
   }
